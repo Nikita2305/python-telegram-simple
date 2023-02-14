@@ -29,7 +29,7 @@ setup(
         'telegram_simple',
     ],
     package_data={
-        'telegram': [
+        'telegram_simple': [
             'lib/darwin/*',
             'lib/linux/*',
         ],
