@@ -13,7 +13,7 @@ def get_version(package):
     return re.match("__version__ = ['\"]([^'\"]+)['\"]", init_py).group(1)
 
 
-version = get_version('telegram')
+version = get_version('telegram_simple')
 
 
 setup(
@@ -26,7 +26,7 @@ setup(
     long_description_content_type='text/markdown',
     long_description=open(os.path.join(os.path.dirname(__file__), 'README.md')).read(),
     packages=[
-        'telegram',
+        'telegram_simple',
     ],
     package_data={
         'telegram': [
