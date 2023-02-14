@@ -139,6 +139,7 @@ class Telegram:
 
         self._results: Dict[str, AsyncResult] = {}
         self._update_handlers: DefaultDict[str, List[Callable]] = defaultdict(list)
+        self._any_update_handlers: List[Callable] = list()
 
         self._tdjson = TDJson(library_path=library_path, verbosity=tdlib_verbosity)
         self._run()
@@ -557,6 +558,9 @@ class Telegram:
     def _run_handlers(self, update: Dict[Any, Any]) -> None:
         update_type: str = update.get('@type', 'unknown')
 
+        for handler in self._any_update_handlers:
+            self._workers_queue.put((handler, update), timeout=self._queue_put_timeout)
+
         for handler in self._update_handlers[update_type]:
             self._workers_queue.put((handler, update), timeout=self._queue_put_timeout)
 
@@ -570,8 +574,22 @@ class Telegram:
             # not in the list
             pass
 
+    def remove_any_update_handler(self, func: Callable) -> None:
+        """
+        Remove a handler
+        """
+        try:
+            self._any_update_handlers.remove(func)
+        except (ValueError, KeyError):
+            # not in the list
+            pass
+
     def add_message_handler(self, func: Callable) -> None:
         self.add_update_handler(MESSAGE_HANDLER_TYPE, func)
+
+    def add_any_update_handler(self, func: Callable) -> None:
+        if func not in self._any_update_handlers:
+            self._any_update_handlers.append(func)
 
     def add_update_handler(self, handler_type: str, func: Callable) -> None:
         if func not in self._update_handlers[handler_type]:
