@@ -17,7 +17,7 @@ version = get_version('telegram')
 
 
 setup(
-    name='python-telegram',
+    name='python-telegram-simple',
     version=version,
     description='Python library to help you build your own Telegram clients',
     author='Alexander Akhmetov',

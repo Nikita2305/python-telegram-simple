@@ -17,7 +17,7 @@ It helps you build your own Telegram clients.
 This library requires Python 3.6+ and Linux or MacOS.
 
 ```shell
-pip install python-telegram
+pip install git+https://github.com/Nikita2305/python-telegram-simple.git@egg=python-telegram-simple
 ```
 
 See [documentation](http://python-telegram.readthedocs.io/en/latest/#installation) for more details.
